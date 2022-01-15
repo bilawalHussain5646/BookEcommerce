@@ -1,0 +1,283 @@
+{% extends "user_default.html" %} {% block title %}Cart{%endblock%} {% block
+header %}
+<link
+  href="{{ url_for('static', filename='css/main.css') }}"
+  rel="stylesheet"
+/>
+
+{% endblock %} {%block content%}
+
+
+  <div class="card h-100">
+
+    <div class="card-body">
+      <div>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          <span>{{ message }}</span>
+        </div>
+        {% endfor %} {% endif %} {% endwith %} {% if cartinfo != [] %}
+        <div class="table-responsive">
+          <table class="table w-200">
+            <thead class="thead-dark">
+              <tr>
+                <th scope="col">
+              
+                </th>
+                <th scope="col">
+                  <div class="form-group">
+                    Books
+                  </div>
+                </th>
+                <th scope="col">
+     
+                </th>
+                <th scope="col">
+                
+                </th>
+                <th scope="col">
+           
+                </th>
+
+                <th scope="col">
+              
+                </th>
+              </tr>
+            </thead>
+            <tbody id="tbody">
+              {% for product in cartinfo %}
+              <form action="/add-cart" method="POST">
+                <tr>
+                  <td scope="row">
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="productID"
+                        class="form-control text-center"
+                        value="{{product[0]}}"
+                        readonly
+                        hidden
+                      />
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group"  style="width: 100px !important">
+                      <input
+                        type="text"
+                        name="productImage"
+                        class="form-control text-center"
+                        value="{{product[3]}}"
+                        readonly
+                        hidden
+                      />
+                      <img src="{{product[3]}}" class="w-100" alt="Book Image">
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="productName"
+                        class="form-control text-center"
+                        value="{{product[1]}}"
+                        readonly
+                        hidden
+                      />
+                      {{product[1]}}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="productPrice"
+                        class="form-control text-center"
+                        value="{{product[4]}}$"
+                        readonly
+                        hidden
+                      />
+                      <h4 class="text-center">{{product[4]}}<span class="text-success">$</span></h4>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <button
+                        type="submit"
+                        name="action"
+                        class="btn btn-danger w-100 text-white text-center"
+                        value="Remove{{product[0]}}"
+                        readonly
+                      >
+                        Remove
+                      </button>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="form-group">
+                      <input
+                        type="text"
+                        name="productLink"
+                        class="form-control text-center"
+                        value="{{product[2]}}"
+                        readonly
+                        hidden
+                      />
+                    </div>
+                  </td>
+                
+             
+
+                 
+                </tr>
+              </form>
+              {% endfor %}
+            </tbody>
+            <tfoot class="text-center">
+              <tr>
+                <td colspan="3" class="text-end"><h4>Total</h4></td>
+                <td colspan="1" class="text-center"><h4><span  id="totalAmount">{{Total}}</span><span class="text-success">$</span></h4></td>
+                <td class="text-center"></td>
+              </tr>
+              <tr>
+                
+                <td colspan="3" class="text-end"><h4>Pay using</h4></td>
+                <td colspan="1">
+                  <div id="smart-button-container">
+                    <div style="text-align: center;">
+                      <div id="paypal-button-container"></div>
+                    </div>
+                  </div>
+                </td>
+                <td >
+                 
+                </td>
+              </tr>
+
+              <tr>
+                
+                <td colspan="3" class="text-end"></td>
+                <td colspan="1">
+                  <h4>OR</h4>
+                </td>
+                <td>
+                 
+                </td>
+              </tr>
+              <tr>
+                
+                <td colspan="3" class="text-end"></td>
+                <td colspan="1">
+                  <h4><a
+                    href="/explore"
+                    class="btn btn-primary continue-button cart-btn-transform m-3"
+                    data-abc="true"
+                    >continue reading</a
+                  ></h4>
+                </td>
+                <td>
+                 
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        {% else %}
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body cart">
+                  <div class="col-sm-12 empty-cart-cls text-center">
+                    <img
+                      src="{{ url_for('static', filename='images/logo-cart.png') }}"
+                      width="130"
+                      height="130"
+                      class="img-fluid mb-4 mr-3"
+                    />
+                    <h3><strong>Your Cart is Empty</strong></h3>
+                    <h4>Add something to make me happy :)</h4>
+                    <a
+                      href="/explore"
+                      class="btn btn-primary continue-button cart-btn-transform m-3"
+                      data-abc="true"
+                      >continue reading</a
+                    >
+                    <div id="smart-button-container" hidden>
+                      <div style="text-align: center;">
+                        <div id="paypal-button-container"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%} {%block Scripts%}
+<script src="https://www.paypal.com/sdk/js?client-id=AQGm_uRSlnIOd0MnLCCFnvWTa8kq-uk-IAYRcBxU99tplgcqs81-dzcp7KOLk1YEVidhclcHSPNKW6zG&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+
+<script>
+  function initPayPalButton() {
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'paypal',
+        
+      },
+  
+      createOrder: function(data, actions) {
+        const total = parseFloat(document.getElementById("totalAmount").innerHTML);
+        
+        return actions.order.create({
+          purchase_units: [{"amount":{"currency_code":"USD","value":total}}]
+        });
+      },
+  
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+          
+          // Full available details
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+  
+          // Show a success message within this page, e.g.
+          const element = document.getElementById('paypal-button-container');
+          element.innerHTML = '';
+          element.innerHTML = '<h3>Thank you for your payment!</h3>';
+          $("#loader").show(); 
+          data = {};
+          $.ajax({
+            type: "POST",
+            url: "{{url_for('process')}}",
+            data: { data: data },
+            success: function () {
+              
+              window.location.href = "/downloads";
+            },
+          });
+          // Or go to another URL:  actions.redirect('thank_you.html');
+          
+        });
+      },
+  
+      onError: function(err) {
+        const element = document.getElementById('paypal-button-container');
+        element.innerHTML = '';
+        element.innerHTML = '<h3>Failed to Proceed!</h3>';
+      }
+    }).render('#paypal-button-container');
+  }
+  initPayPalButton();
+  </script>
+  
+{%endblock%}

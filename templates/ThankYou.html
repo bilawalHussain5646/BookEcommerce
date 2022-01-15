@@ -1,0 +1,24 @@
+{% extends "user_default.html" %} {% block title %}Thank You{%endblock%} {%
+block header %} {% endblock %} {%block content%}
+
+<div class="container">
+  <div class="card mt-5">
+    <div class="card-heading border bg-dark text-light py-4 px-2">
+      <h2 class="title text-center">Thank You</h2>
+    </div>
+    <div class="card-body">
+      <div style="width: 100%">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          <span>{{ message }}</span>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

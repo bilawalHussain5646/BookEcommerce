@@ -1,0 +1,23 @@
+{% extends "user_default.html" %} {% block title %}Error{%endblock%} {% block
+header %} {% endblock %} {%block content%}
+
+<div class="container">
+  <div class="card mt-5">
+  
+    <div class="card-body">
+      <div style="width: 100%">
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          <span>{{ message }}</span>
+        </div>
+        {% endfor %} {% endif %} {% endwith %}
+        <img src="{{ url_for('static', filename = 'images/403 Error.png') }}" style="width: 100%" alt="">
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock%}

@@ -1,0 +1,59 @@
+{% extends "user_default.html" %} {% block title %}Books Sale{%endblock%} {%
+block header %} {% endblock %} {%block content%}
+
+    <div class="banner-landing">
+        
+        <div class="bg-dark w-100 h-100" style="opacity: 0.7;">
+            <div class="banner-text" style="padding-top: 180px; padding-bottom: 200px; opacity:1;color:goldenrod">
+                <h1 class="text-center" style="font-weight:1000 !important;font-size:xxx-large;color:goldenrod">GET YOUR FAVORITE BOOK ON YOUR ACCOUNT</h1><br/><h3 class="text-center mb-5">WITHOUT WORRYING ABOUT LOSING IT</h3>
+                <center>
+                    <a href="/login" class="btn btn-transparent text-light p-3 browse-button">
+                        Browse Now !
+                    </a>
+                </center>
+    
+            </div>
+        </div>
+       
+        
+</div>
+<div class="row m-5">
+    <div class="col-auto" >
+        <img src="{{ url_for('static', filename='images/login-pic.png') }}" width="400px" alt="">
+    </div>
+    <div class="col p-5">
+        <h2>Login</h2>
+        <p>By Logging in, you agree to the <br/>ridiculously long terms that you <br/>didn't bother to read.</p>
+    </div>   
+</div>
+<div class="row m-5">
+    
+    <div class="col p-5">
+        <h2>Choose the Book</h2>
+        <p>Pick the book you want to read <br/>No need to worry about the fake contents<br/>You will get thousands of books of similar kind.</p>
+    </div>
+    <div class="col-auto">
+        <img src="{{ url_for('static', filename='images/select-book.jpg') }}" width="400px" alt="">
+    </div>
+        
+</div>
+<div class="row m-5">
+    <div class="col-auto">
+        <img src="{{ url_for('static', filename='images/payment.jpg') }}" width="400px" alt="">
+    </div>
+    <div class="col p-5">
+        <h2>Complete the payment</h2>
+        <p>Pay 1.99$ to get the book in your account <br/>100% satisfactory and trusted results.</p>
+    </div>         
+</div>
+<div class="row m-5">
+    <div class="col p-5">
+        <h2>Download Your Book</h2>
+        <p>After paying now you can use that book <br/>For unlimited time without worrying to lose it again!</p>
+    </div>
+    <div class="col-auto">
+        <img src="{{ url_for('static', filename='images/download-books.jpg') }}" width="400px" alt="">
+    </div>
+   
+</div>
+{%endblock%}

@@ -1,0 +1,125 @@
+{% extends "user_default.html" %} {% block title %}Subscription{%endblock%} {% block
+header %}
+<link
+  href="{{ url_for('static', filename='css/main.css') }}"
+  rel="stylesheet"
+/>
+
+{% endblock %} {%block content%}
+
+
+  <div class="card h-100">
+    
+    <div class="card-body">
+      <div>
+        {% with messages = get_flashed_messages(with_categories=true) %} {% if
+        messages %} {% for category, message in messages %}
+        <div
+          class="alert alert-{{ category }} alert-dismissible fade show"
+          role="alert"
+        >
+          <span>{{ message }}</span>
+        </div>
+        {% endfor %} {% endif %} {% endwith %} 
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-body cart bg-dark text-light">
+                  <div class="col-sm-12 col empty-cart-cls text-center">
+                    <img
+                      src="{{ url_for('static', filename='images/subscription.jpg') }}"
+                      width="100%"
+                      class="img-fluid mb-4 mr-3"
+                    />
+                    <h2><strong>Purchase Monthly Access</strong></h2>
+                    <h4 class="pt-2">No more limitions</h4>
+                    <h4>free access for all books</h4>
+                    <h4>free access for all books</h4>
+                    <h4>Only for <span class="text-warning">5.99$</span></h4>
+                    {%if session['subscription'] == None%}
+                    <div id="smart-button-container">
+                      <div style="text-align: center;">
+                        <div id="paypal-button-container"></div>
+                      </div>
+                    </div>
+                    {%else%}
+                    <h4><i class="fa fa-clock-o" aria-hidden="true"></i> will expire on {{session['subscription_end_date']}}</h4>
+                    <button class="btn btn-success" disabled>Purchased</button>
+                    <div id="smart-button-container" hidden>
+                      <div style="text-align: center;">
+                        <div id="paypal-button-container"></div>
+                      </div>
+                    </div>
+                    {%endif%}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+   
+      </div>
+    </div>
+  </div>
+
+{%endblock%}
+{%block Scripts%}
+<script src="https://www.paypal.com/sdk/js?client-id=AQGm_uRSlnIOd0MnLCCFnvWTa8kq-uk-IAYRcBxU99tplgcqs81-dzcp7KOLk1YEVidhclcHSPNKW6zG&enable-funding=venmo&currency=USD" data-sdk-integration-source="button-factory"></script>
+
+<script>
+  function initPayPalButton() {
+    paypal.Buttons({
+      style: {
+        shape: 'rect',
+        color: 'gold',
+        layout: 'vertical',
+        label: 'paypal',
+        
+      },
+  
+      createOrder: function(data, actions) {
+        const total = 5.99;
+        
+        return actions.order.create({
+          purchase_units: [{"amount":{"currency_code":"USD","value":total}}]
+        });
+      },
+  
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(orderData) {
+          
+          // Full available details
+          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+          
+          // Show a success message within this page, e.g.
+          const element = document.getElementById('paypal-button-container');
+          element.innerHTML = '';
+          element.innerHTML = '<h3>Thank you for your payment!</h3>';
+          $("#loader").show(); 
+          data = {};
+          $.ajax({
+            type: "POST",
+            url: "{{url_for('subscription')}}",
+            data: { data: data },
+            success: function () {
+              $("#loader").hide();  
+              window.location.href = "/subscription";
+            },
+          });
+          // Or go to another URL:  actions.redirect('thank_you.html');
+          
+        });
+      },
+  
+      onError: function(err) {
+        const element = document.getElementById('paypal-button-container');
+        element.innerHTML = '';
+        element.innerHTML = '<h3>Failed to Proceed!</h3>';
+      }
+    }).render('#paypal-button-container');
+  }
+  initPayPalButton();
+  </script>
+  
+{%endblock%}

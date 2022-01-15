@@ -1,0 +1,59 @@
+{% extends "user_default.html" %} 
+{%block title%}Login{%endblock%}
+
+{% block content %} 
+
+    <div
+      class="d-flex align-items-center justify-content-center background-Login"
+      style="height: 100vh"
+    >
+      <div class="border pt-2 pb-2 px-5 w-60 border-dark bg-white">
+        <form class="p-5 w-60" action="/login" method="POST">
+          <div class="mb-5 text-center">
+            <h2><strong>Login</strong></h2>
+          </div>
+          {% with messages = get_flashed_messages(with_categories=true) %} {% if
+          messages %} {% for category, message in messages %}
+          <div
+            class="alert alert-{{ category }} alert-dismissible fade show"
+            role="alert"
+          >
+            <span>{{ message }}</span>
+          </div>
+          {% endfor %} {% endif %} {% endwith %}
+          <div class="mb-3">
+            <label for="email" class="form-label">Email address</label>
+            <input
+              type="email"
+              class="form-control"
+              id="email"
+              name="email"
+              required
+            />
+          </div>
+          <div class="mb-4">
+            <label for="password" class="form-label">Password</label>
+            <input
+              type="password"
+              class="form-control"
+              id="password"
+              name="password"
+              required
+            />
+          </div>
+
+          <button
+            type="submit"
+            class="btn btn-danger w-100"
+            name="action"
+            value="login"
+          >
+            Login
+          </button>
+          <div class="my-4 text-center">
+            <a href="/signup">Don't have an account?</a>
+          </div>
+        </form>
+      </div>
+    </div>
+    {%endblock%}
